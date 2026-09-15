@@ -22,25 +22,49 @@ pip install -r requirements.txt
 cp .env.example .env   # fill in your email provider's credentials
 ```
 
-### 1. Fill in your target companies
+### 1. Target companies
 
-`config/companies.yaml` ships as a template. For each company on your list:
+`config/companies.yaml` is pre-populated with 262 companies (from the
+provided target list) as `tier2` entries, crawled directly at their
+`careers_url` — this is what "search each careers site daily" runs against
+out of the box, no further setup required to start.
 
-```bash
-python -m job_search_agent.discover_ats "Company Name"
-```
+Two things worth knowing:
 
-This tests common Greenhouse/Lever/Ashby/SmartRecruiters slug patterns and
-tells you which one hit, if any. Add the result under the matching section
-in `config/companies.yaml`. If none hit:
-- Check browser devtools' Network tab (filter "cxs") while browsing the
-  company's careers site for a Workday endpoint — see
+- **121 companies from the source list had no `careers_url`** (things like
+  Dribbble, Midjourney, Pentagram, A24) and are listed under `needs_url` in
+  `config/companies.yaml` for reference only — the loader ignores that
+  section. Add a `careers_url` and move an entry into `tier2` once you have
+  one, and it'll be crawled on the next run.
+- **Tier 2 crawling is a plain HTTP fetch, not a browser.** It reads
+  server-rendered HTML (or embedded schema.org `JobPosting` structured
+  data, which it prefers when present — see "Known limitations"). A
+  careers page that renders its job list client-side via JS after load
+  will come back empty here even though it's "live" in a real browser.
+  For any company that's consistently returning nothing, it's very likely
+  actually running on Greenhouse/Lever/Ashby/SmartRecruiters/Workday under
+  the hood (common for startups in this list — e.g. Anthropic, Ramp,
+  Notion, Vercel, Linear, Mercury). Run:
+
+  ```bash
+  python -m job_search_agent.discover_ats "Company Name"
+  ```
+
+  to check, then move the entry from `tier2` to the matching ATS section
+  in `config/companies.yaml` with the discovered `slug` — Tier 1 is far
+  more reliable (a real API, a real posted date) than the Tier 2 fallback.
+  For Workday, check browser devtools' Network tab (filter "cxs") — see
   `job_search_agent/ats/workday.py` for the exact pattern to look for.
-- Otherwise, add it under `tier2` with its careers page URL as `careers_url`.
 
-This is a one-time task per company (re-check monthly with
-`python -m job_search_agent.recheck_ats` in case a company migrates
-platforms — see "Error Handling / Etiquette" in the original spec).
+Re-check monthly with `python -m job_search_agent.recheck_ats` in case a
+company migrates platforms or a Tier 2 page's markup changes (see "Error
+Handling / Etiquette" in the original spec).
+
+**Note on exclusions:** in addition to the spec's Not Interested list
+(Meta, X, Snap, TikTok/ByteDance, AKQA, Allbirds, TKO Group), LinkedIn's
+own careers page and CapCut (a ByteDance property) are excluded too —
+LinkedIn per the spec's standing rule, CapCut as a reasonable extension of
+the ByteDance exclusion. Flag it if that's not what you want.
 
 ### 2. Adjust titles and settings
 
@@ -101,10 +125,8 @@ here and should not be added.
   results.** The Indeed fetcher respects that (as it should), so it will
   frequently return nothing — that's correct behavior per the spec's
   crawler etiquette rules, not a bug.
-- **`config/companies.yaml` ships empty.** The spec references a
-  `Job_Search_Target_Companies.docx` with the actual seed list, which
-  wasn't available to import automatically — populate it via the
-  discovery step above.
+- **121 companies still need a `careers_url`** before they can be crawled
+  at all — see `needs_url` in `config/companies.yaml` and the note above.
 
 ## Tests
 
