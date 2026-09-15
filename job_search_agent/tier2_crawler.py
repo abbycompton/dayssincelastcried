@@ -7,6 +7,17 @@ date_confidence="low" and is held to the freshness filter's normal bar (a
 missing date still excludes it -- Tier 2 doesn't get a pass on that, per spec:
 "No date = excluded, not included-with-caveat"). It only gets a *reduced*
 bar for how confident the pipeline is when a date IS present.
+
+Two things keep this from silently coming back blank on a modern SPA-style
+careers page:
+  1. ATS sniffing (ats_sniff.py): if the page embeds a known Greenhouse/
+     Lever/Ashby/SmartRecruiters/Workday board, fetch that directly instead
+     of trying to scrape the wrapper page's text.
+  2. A headless-render fallback (render.py, optional): if the static fetch
+     finds nothing at all, retry through a real headless browser so
+     client-side-rendered listings get a chance to show up.
+If both come up empty, that's logged as a distinct warning rather than
+silently looking like "zero open roles today" -- see the bottom of fetch().
 """
 
 from __future__ import annotations
@@ -19,9 +30,12 @@ from urllib.parse import urljoin, urlparse
 from bs4 import BeautifulSoup
 from dateutil import parser as dateutil_parser
 
+from . import ats_sniff
+from .ats import ashby, greenhouse, lever, smartrecruiters, workday
 from .http_client import HttpClient
 from .jsonld import extract_job_postings
 from .models import Posting
+from .render import Renderer
 
 logger = logging.getLogger("job_search_agent")
 
@@ -36,8 +50,21 @@ _RELATIVE_DATE_RE = re.compile(
     r"(?P<num>\d+)\s*\+?\s*(?P<unit>day|hour|week|month)s?\s+ago", re.I
 )
 
+_ATS_MODULES = {
+    "greenhouse": greenhouse,
+    "lever": lever,
+    "ashby": ashby,
+    "smartrecruiters": smartrecruiters,
+    "workday": workday,
+}
 
-def fetch(company_name: str, careers_url: str, client: HttpClient) -> list[Posting]:
+
+def fetch(
+    company_name: str,
+    careers_url: str,
+    client: HttpClient,
+    renderer: Renderer | None = None,
+) -> list[Posting]:
     resp = client.get(careers_url, respect_robots=True)
     if resp is None:
         logger.error("[tier2] %s: could not fetch %s (request failed or robots.txt disallowed)", company_name, careers_url)
@@ -46,17 +73,77 @@ def fetch(company_name: str, careers_url: str, client: HttpClient) -> list[Posti
         logger.error("[tier2] %s: HTTP %s for %s", company_name, resp.status_code, careers_url)
         return []
 
-    soup = BeautifulSoup(resp.text, "lxml")
+    postings = _process_html(resp.text, careers_url, company_name, client)
+    if postings:
+        return postings
 
-    # Prefer genuine structured data when the page provides it -- it comes
-    # with a real machine-readable date, unlike anything we'd scrape from
-    # visible text.
-    jsonld_postings = extract_job_postings(soup, source="tier2", url_fallback=careers_url)
-    if jsonld_postings:
-        for posting in jsonld_postings:
-            posting.company = company_name
-        return jsonld_postings
+    rendered = False
+    if renderer is not None and renderer.available:
+        rendered_html = renderer.render(careers_url)
+        rendered = True
+        if rendered_html:
+            postings = _process_html(rendered_html, careers_url, company_name, client)
+            if postings:
+                return postings
 
+    logger.warning(
+        "[tier2] %s: zero postings found at %s (%s) -- likely a JS-rendered page "
+        "this crawler can't fully see into, a stale/wrong careers_url, or a page "
+        "structure it doesn't recognize. NOT necessarily \"no open roles today\" -- "
+        "worth a manual check.",
+        company_name, careers_url, "static + rendered" if rendered else "static only",
+    )
+    return []
+
+
+def _process_html(html: str, careers_url: str, company_name: str, client: HttpClient) -> list[Posting]:
+    """Runs the JSON-LD + anchor-heuristic parse; if that finds nothing, tries
+    an ATS handoff before giving up on this HTML."""
+    soup = BeautifulSoup(html, "lxml")
+
+    postings = _extract_jsonld(soup, careers_url, company_name)
+    if postings:
+        return postings
+
+    postings = _extract_anchors(soup, careers_url, company_name)
+    if postings:
+        return postings
+
+    sniff_result = ats_sniff.sniff(html)
+    if sniff_result:
+        return _handoff_to_ats(sniff_result, company_name, client)
+
+    return []
+
+
+def _extract_jsonld(soup: BeautifulSoup, careers_url: str, company_name: str) -> list[Posting]:
+    postings = extract_job_postings(soup, source="tier2", url_fallback=careers_url)
+    for posting in postings:
+        posting.company = company_name
+    return postings
+
+
+def _handoff_to_ats(sniff_result: tuple[str, str], company_name: str, client: HttpClient) -> list[Posting]:
+    ats, slug_or_url = sniff_result
+    module = _ATS_MODULES.get(ats)
+    if module is None:
+        return []
+    try:
+        postings = module.fetch(company_name, slug_or_url, client)
+    except Exception:
+        logger.exception("[tier2] %s: ATS handoff to %s failed", company_name, ats)
+        return []
+    if postings:
+        logger.info(
+            "[tier2] %s: found an embedded %s board (%s) with %d posting(s) -- "
+            "consider moving this company from tier2 to '%s' in config/companies.yaml "
+            "for a more reliable daily crawl",
+            company_name, ats, slug_or_url, len(postings), ats,
+        )
+    return postings
+
+
+def _extract_anchors(soup: BeautifulSoup, careers_url: str, company_name: str) -> list[Posting]:
     postings: list[Posting] = []
     seen_urls: set[str] = set()
 

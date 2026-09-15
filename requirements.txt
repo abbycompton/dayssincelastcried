@@ -4,6 +4,7 @@ lxml>=5.0
 PyYAML>=6.0
 python-dateutil>=2.8
 rapidfuzz>=3.6
+playwright>=1.44
 APScheduler>=3.10
 sendgrid>=6.11
 python-http-client>=3.3

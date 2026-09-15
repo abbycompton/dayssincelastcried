@@ -7,8 +7,10 @@ live immediately before sending, and emails a digest — with no repeats of
 previously-surfaced postings.
 
 Implements the spec in full: Tier 1 ATS APIs (Greenhouse, Lever, Ashby,
-SmartRecruiters, Workday), a Tier 2 direct-crawl fallback, Tier 3
-aggregators (RemoteOK, We Work Remotely, Built In, Indeed), a strict
+SmartRecruiters, Workday), a Tier 2 direct-crawl fallback (with a
+headless-render fallback and automatic ATS detection so it doesn't quietly
+come back empty on JS-heavy pages — see "How Tier 2 avoids blank results"),
+Tier 3 aggregators (RemoteOK, We Work Remotely, Built In, Indeed), a strict
 filter pipeline, SQLite-backed dedup, pre-send live-link verification, and
 pluggable email delivery (SendGrid / Postmark / Gmail API). LinkedIn is
 intentionally excluded — see "Why LinkedIn is excluded" below.
@@ -19,42 +21,52 @@ intentionally excluded — see "Why LinkedIn is excluded" below.
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env   # fill in your email provider's credentials
+playwright install chromium   # optional but recommended -- see below
+cp .env.example .env          # fill in your email provider's credentials
 ```
+
+The `playwright install chromium` step downloads a headless browser used
+only as a fallback when a Tier 2 careers page's job list is rendered by
+client-side JS (a plain HTTP fetch can't see that). It's optional — if you
+skip it, everything else still works, that fallback just won't fire, and
+a JS-heavy page's postings will get logged as an unusual all-zero result
+(see below) instead of being found.
 
 ### 1. Target companies
 
-`config/companies.yaml` is pre-populated with 262 companies (from the
-provided target list) as `tier2` entries, crawled directly at their
-`careers_url` — this is what "search each careers site daily" runs against
-out of the box, no further setup required to start.
+`config/companies.yaml` is pre-populated with 300 companies (from the
+provided target list, plus some best-effort URLs filled in — see below) as
+`tier2` entries, crawled directly at their `careers_url` — this is what
+"search each careers site daily" runs against out of the box, no further
+setup required to start.
 
-Two things worth knowing:
+Worth knowing:
 
-- **121 companies from the source list had no `careers_url`** (things like
-  Dribbble, Midjourney, Pentagram, A24) and are listed under `needs_url` in
-  `config/companies.yaml` for reference only — the loader ignores that
-  section. Add a `careers_url` and move an entry into `tier2` once you have
-  one, and it'll be crawled on the next run.
-- **Tier 2 crawling is a plain HTTP fetch, not a browser.** It reads
-  server-rendered HTML (or embedded schema.org `JobPosting` structured
-  data, which it prefers when present — see "Known limitations"). A
-  careers page that renders its job list client-side via JS after load
-  will come back empty here even though it's "live" in a real browser.
-  For any company that's consistently returning nothing, it's very likely
-  actually running on Greenhouse/Lever/Ashby/SmartRecruiters/Workday under
-  the hood (common for startups in this list — e.g. Anthropic, Ramp,
-  Notion, Vercel, Linear, Mercury). Run:
+- **83 companies from the source list still have no usable `careers_url`**
+  (Midjourney, several small agencies and foundations, recently-acquired or
+  wound-down companies like Cruise and Simple, ambiguous names like "Aura").
+  They're listed under `needs_url` in `config/companies.yaml`, each with a
+  `note` explaining why it's unresolved (acquired, defunct, ambiguous name,
+  no known public careers page, etc.) — the loader ignores this section.
+  Add a `careers_url` and move an entry into `tier2` once you have one.
+- **37 of the 300 `tier2` URLs were filled in from training knowledge, not
+  fetched or verified** (this environment has no general internet access —
+  confirmed by testing, both plain HTTP and a headless browser get a
+  proxy-level connection block on arbitrary domains). They're standard
+  `/careers`-style guesses for companies I'm reasonably confident are still
+  active, but some may be wrong or stale. A wrong one fails safe: it shows
+  up as an HTTP-failure or all-zero-postings line in `logs/errors.log` on
+  the first real run (see below), not a silent bad result.
+- **Tier 2 crawling now retries through a headless browser and looks for an
+  embedded ATS board when the plain fetch finds nothing** — see the next
+  section — so most JS-rendered pages should self-correct without any
+  manual discovery step. For the ones that still come back empty, or to
+  permanently upgrade a company to a faster/more reliable Tier 1 API
+  instead of re-detecting it every day, run:
 
   ```bash
-  python -m job_search_agent.discover_ats "Company Name"
+  python -m job_search_agent.bulk_upgrade --apply
   ```
-
-  to check, then move the entry from `tier2` to the matching ATS section
-  in `config/companies.yaml` with the discovered `slug` — Tier 1 is far
-  more reliable (a real API, a real posted date) than the Tier 2 fallback.
-  For Workday, check browser devtools' Network tab (filter "cxs") — see
-  `job_search_agent/ats/workday.py` for the exact pattern to look for.
 
 Re-check monthly with `python -m job_search_agent.recheck_ats` in case a
 company migrates platforms or a Tier 2 page's markup changes (see "Error
@@ -65,6 +77,38 @@ Handling / Etiquette" in the original spec).
 own careers page and CapCut (a ByteDance property) are excluded too —
 LinkedIn per the spec's standing rule, CapCut as a reasonable extension of
 the ByteDance exclusion. Flag it if that's not what you want.
+
+## How Tier 2 avoids blank results
+
+A plain HTTP fetch can't run JavaScript, so a careers page that builds its
+job list client-side (common on modern marketing-site-wraps-a-job-board
+setups) looks empty to `requests` even though it's full of postings in a
+real browser. Three things address this, in order, inside
+`job_search_agent/tier2_crawler.py`:
+
+1. **Structured data first.** If the page embeds schema.org `JobPosting`
+   JSON-LD, that's used directly — it's genuinely machine-readable and
+   comes with a real date, regardless of how the visible page renders.
+2. **ATS sniffing (`ats_sniff.py`).** If the page's HTML contains a link or
+   iframe pointing at a known Greenhouse/Lever/Ashby/SmartRecruiters/
+   Workday board, that's fetched directly instead of parsing the wrapper
+   page's text — this is what usually happens for companies whose
+   marketing site just embeds their real job board.
+3. **Headless-render fallback (`render.py`, needs `playwright install
+   chromium`).** If nothing was found in the static HTML at all, the same
+   page is re-fetched through a real headless Chromium tab so client-side
+   rendering gets a chance to run, then steps 1–2 are retried on the
+   rendered DOM.
+
+If a company still returns zero postings after all three, that's logged as
+a distinct warning (`logs/errors.log`) explaining it's likely a stale URL,
+a robots.txt block, or a page structure the crawler doesn't recognize —
+**not** presented the same as "no open roles today," so a structurally
+broken source doesn't quietly and permanently disappear from your digest.
+`python -m job_search_agent.recheck_ats` runs this same check for every
+configured company on demand; `python -m job_search_agent.bulk_upgrade`
+scans specifically for step-2 ATS matches worth promoting to Tier 1
+permanently.
 
 ### 2. Adjust titles and settings
 
@@ -118,6 +162,12 @@ here and should not be added.
   that's used for a genuine machine-readable date. Where it doesn't, Tier 2
   falls back to heuristic anchor/text parsing and is flagged
   `date_confidence: low`.
+- **The headless-render fallback only fires when the static pass finds
+  literally nothing.** A page that returns *some* markup-level content but
+  not the real job listings (e.g. a loading skeleton with unrelated text)
+  won't trigger it. It's also only attempted once per company per run, with
+  a fixed post-load wait rather than waiting for a specific element — a
+  slow-hydrating page could still come back empty.
 - **Live-link verification is a plain HTTP fetch, not a headless browser.**
   A page that only 404s after client-side JS runs can still pass. There's
   no cheap fix for that without a browser-automation dependency.
@@ -125,8 +175,9 @@ here and should not be added.
   results.** The Indeed fetcher respects that (as it should), so it will
   frequently return nothing — that's correct behavior per the spec's
   crawler etiquette rules, not a bug.
-- **121 companies still need a `careers_url`** before they can be crawled
-  at all — see `needs_url` in `config/companies.yaml` and the note above.
+- **83 companies still need a `careers_url`** before they can be crawled at
+  all, and 37 more have an unverified best-effort one — see `needs_url` in
+  `config/companies.yaml` and the notes above.
 
 ## Tests
 

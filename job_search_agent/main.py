@@ -18,6 +18,7 @@ from .email_delivery import get_sender
 from .filters import Decision, apply_pipeline
 from .http_client import HttpClient, RateLimiter
 from .models import Posting
+from .render import Renderer
 from .verify import verify_postings
 from . import tier2_crawler
 
@@ -50,7 +51,7 @@ def setup_logging(error_log_path) -> None:
     logger.addHandler(error_handler)
 
 
-def crawl_companies(companies, client: HttpClient) -> list[Posting]:
+def crawl_companies(companies, client: HttpClient, renderer: Renderer | None = None) -> list[Posting]:
     postings: list[Posting] = []
     for company in companies:
         try:
@@ -58,7 +59,7 @@ def crawl_companies(companies, client: HttpClient) -> list[Posting]:
                 if not company.careers_url:
                     logger.error("[crawl] %s: tier2 entry missing careers_url, skipping", company.name)
                     continue
-                postings.extend(tier2_crawler.fetch(company.name, company.careers_url, client))
+                postings.extend(tier2_crawler.fetch(company.name, company.careers_url, client, renderer))
             else:
                 fetcher = _ATS_FETCHERS.get(company.ats)
                 if fetcher is None:
@@ -114,10 +115,12 @@ def run() -> None:
     companies, excluded_names = config_module.load_companies()
     target_company_names = {c.name.strip().lower() for c in companies}
 
-    client = HttpClient(RateLimiter(settings.rate_limit_seconds_per_domain), settings.request_timeout_seconds)
+    rate_limiter = RateLimiter(settings.rate_limit_seconds_per_domain)
+    client = HttpClient(rate_limiter, settings.request_timeout_seconds)
 
     logger.info("Crawling %d configured companies (Tier 1 + Tier 2)...", len(companies))
-    all_postings = crawl_companies(companies, client)
+    with Renderer(rate_limiter) as renderer:
+        all_postings = crawl_companies(companies, client, renderer)
 
     logger.info("Crawling Tier 3 aggregators...")
     all_postings.extend(crawl_aggregators(settings, target_titles, client))
