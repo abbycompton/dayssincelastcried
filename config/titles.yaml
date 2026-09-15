@@ -1,0 +1,21 @@
+# Target titles for fuzzy/substring matching against posting titles.
+# Matching is case-insensitive substring + fuzzy (see job_search_agent/filters.py).
+# Add/remove entries here; no code changes needed.
+
+target_titles:
+  - "Chief of Staff"
+  - "Principal Program Manager"
+  - "Senior Principal Program Manager"
+  - "Senior Program Manager"
+  - "Lead Program Manager"
+  - "Manager, Design Operations"
+  - "Senior Manager, Design Operations"
+  - "Creative Operations Manager"
+  - "Director, Creative Operations"
+  - "Director of Operations"
+  - "Director, Program Management"
+  - "Strategic Program Management"  # substring match: any title containing this phrase
+
+# Minimum fuzzy match score (0-100, rapidfuzz partial_ratio) for titles that aren't
+# a direct substring match, to catch variants like "Sr. Program Manager".
+fuzzy_threshold: 85

@@ -1,0 +1,42 @@
+# Runtime settings for the job search agent. Secrets (API keys) go in .env, not here.
+
+# Lookback window for freshness filtering, in days.
+lookback_days: 7
+
+# Locations treated as "in-office acceptable" in addition to remote postings.
+# Substring-matched (case-insensitive) against the posting's location field.
+accepted_onsite_locations:
+  - "Portland, OR"
+  - "Portland, Oregon"
+  - "Portland Metro"
+  - "Beaverton, OR"
+  - "Hillsboro, OR"
+
+# Rate limit for direct crawling (Tier 2) and aggregator fetches, in seconds
+# between requests to the same domain.
+rate_limit_seconds_per_domain: 1.0
+
+# HTTP request timeout, in seconds.
+request_timeout_seconds: 15
+
+# Paths (relative to repo root unless absolute).
+dedup_store_path: "data/seen_postings.sqlite3"
+error_log_path: "logs/errors.log"
+ats_mapping_cache_path: "config/companies.yaml"
+
+# Aggregators to query (Tier 3). LinkedIn is intentionally absent and must
+# never be added: it blocks automated fetching and its results were found to
+# be unreliable/stale in manual testing (see spec).
+aggregators:
+  remoteok: true
+  weworkremotely: true
+  builtin: true
+  indeed: true
+
+# Email delivery. Choose one provider and set its credentials in .env.
+# provider: sendgrid | postmark | gmail
+email:
+  provider: "sendgrid"
+  from_address: "jobsearch-agent@example.com"
+  to_address: "yeakel.abby@gmail.com"
+  subject_prefix: "[Job Search Digest]"

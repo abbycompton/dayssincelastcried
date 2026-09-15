@@ -1,0 +1,12 @@
+requests>=2.31
+beautifulsoup4>=4.12
+lxml>=5.0
+PyYAML>=6.0
+python-dateutil>=2.8
+rapidfuzz>=3.6
+APScheduler>=3.10
+sendgrid>=6.11
+python-http-client>=3.3
+google-api-python-client>=2.100
+google-auth-httplib2>=0.2
+google-auth-oauthlib>=1.2

@@ -1,0 +1,103 @@
+# Target company list, organized by ATS (per spec: "categories are for
+# reference/prioritization, not required output structure").
+#
+# IMPORTANT: This file is a SEED/TEMPLATE. The spec references a full list in
+# `Job_Search_Target_Companies.docx` that was not available to import automatically.
+# Run `python -m job_search_agent.discover_ats "Company Name"` for each company in
+# your source doc to find its ATS + slug, then add an entry below in the matching
+# section. Re-run discovery monthly (see spec's "Error Handling / Etiquette").
+#
+# Schema per company:
+#   - name: "Display Name"
+#     ats: greenhouse | lever | ashby | smartrecruiters | workday | tier2
+#     slug: "company-slug"          # ATS board slug (not needed for tier2)
+#     careers_url: "https://..."    # required for tier2, optional documentation otherwise
+#     category: "Design & Creative Tools"  # free text, for prioritization only
+
+greenhouse: []
+
+lever: []
+
+ashby: []
+
+smartrecruiters: []
+
+workday: []
+
+# Companies with no known public ATS API; crawled directly (Tier 2 fallback).
+# Each entry needs a careers_url to crawl.
+tier2: []
+
+# Companies explicitly excluded per the "Not Interested" list in the planning doc.
+# Never crawled, never surfaced, even if discovered via an aggregator.
+excluded:
+  - "Meta"
+  - "X"
+  - "Snap"
+  - "TikTok"
+  - "ByteDance"
+  - "AKQA"
+  - "Allbirds"
+  - "TKO Group"
+
+# Reference categories from the planning doc (informational only; the crawler
+# does not read this list, it exists so category tags on entries above stay
+# consistent). Populate the sections above from your source doc, tagging each
+# company's `category` with one of these.
+reference_categories:
+  - "Design & Creative Tools"
+  - "Enterprise SaaS/B2B"
+  - "Fintech"
+  - "Rideshare"
+  - "Neighborhood/Local Social"
+  - "Hospitality Brands"
+  - "Ethical/Values-Driven Banking"
+  - "Dev Tools/Infrastructure"
+  - "HR/People Tech"
+  - "Cybersecurity"
+  - "Fully-Remote-Native"
+  - "Healthtech"
+  - "Wearables/Health Tech"
+  - "Gaming & Interactive Entertainment"
+  - "Animation & Studios"
+  - "Streaming/Media/Entertainment"
+  - "Celebrity/Founder-Led Creative-Tech Ventures"
+  - "Sports Tech/Media"
+  - "Editorial/Publishing Design"
+  - "Marketplace/Commerce"
+  - "Ecommerce"
+  - "Pet Tech"
+  - "Viral CPG/Cult Consumer Brands"
+  - "Social & Content Platforms"
+  - "Meme/Content Platform Infrastructure"
+  - "Music/Audio Tech"
+  - "AI-Creative Tools"
+  - "AI-Native Design/Creative Ops Tooling"
+  - "Generative AI x Fashion/Product Design"
+  - "Print-on-Demand/Creator Commerce"
+  - "Fashion/Retail Tech"
+  - "Jewelry/Craft Tech"
+  - "Athletic/Apparel Brands"
+  - "Toy/Physical-Digital Creative"
+  - "Niche Interactive/Experience Design"
+  - "Wellness Tech"
+  - "Garden/Home Lifestyle"
+  - "R&D/Innovation Labs"
+  - "Creative/Tech Foundations"
+  - "Portland-Specific Tech"
+  - "Startups (AI & Creative)"
+  - "Camera Companies"
+  - "Real Estate Tech"
+  - "Outdoor/Adventure Lifestyle"
+  - "Streetwear/Culture Media"
+  - "Dining/Reservation Tech"
+  - "Recruiting/Professional Networking"
+  - "Autonomous Vehicles/Robotics"
+  - "EdTech"
+  - "Creator Audio/Stock Libraries"
+  - "Food/Recipe Tech"
+  - "Live Events/Ticketing"
+  - "Podcast Production"
+  - "Beauty Tech"
+  - "Travel/Hospitality Tech"
+  - "Creative Agencies"

@@ -1,0 +1,7 @@
+# Example crontab entry for the daily job search digest.
+# Install with: crontab -e, then paste a line like this (adjust paths):
+#
+# 0 7 * * * cd /path/to/dayssincelastcried && /path/to/venv/bin/python -m job_search_agent.main >> logs/cron.log 2>&1
+#
+# Runs at 7:00 AM local time (the box's local time, or set CRON_TZ=America/Los_Angeles
+# above the line on cron implementations that support it).
