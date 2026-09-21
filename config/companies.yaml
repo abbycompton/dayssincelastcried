@@ -6,7 +6,11 @@ greenhouse: []
 lever: []
 ashby: []
 smartrecruiters: []
-workday: []
+workday:
+- name: Blue Apron
+  ats: workday
+  slug: https://wonder.wd1.myworkdayjobs.com/wday/cxs/wonder/WG/jobs
+  category: Food / Recipe Tech
 tier2:
 - name: Figma
   ats: tier2
@@ -354,7 +358,7 @@ tier2:
   category: Gaming & Interactive Entertainment
 - name: Epic Games
   ats: tier2
-  careers_url: https://www.epicgames.com/site/en-US/careers
+  careers_url: https://www.epicgames.com/site/careers/jobs
   category: Gaming & Interactive Entertainment
 - name: Roblox
   ats: tier2
@@ -1351,6 +1355,46 @@ tier2:
   careers_url: https://valon.com/careers
   category: New Additions (Sept 2026)
   verified: false
+- name: A24
+  ats: tier2
+  careers_url: https://a24films.com/jobs
+  category: Streaming, Media & Entertainment
+- name: Atoms
+  ats: tier2
+  careers_url: https://atoms.com/jobs
+  category: New Additions (Sept 2026)
+- name: Aura
+  ats: tier2
+  careers_url: https://www.aura.com/careers
+  category: Jewelry / Craft Tech
+- name: Big Spaceship
+  ats: tier2
+  careers_url: https://www.bigspaceship.com/careers#positions
+  category: Creative Agencies
+- name: Bloomscape
+  ats: tier2
+  careers_url: https://bloomscape.com/careers/
+  category: Garden / Home Lifestyle
+- name: Bria AI
+  ats: tier2
+  careers_url: https://bria.ai/careers
+  category: Generative AI x Fashion / Product Design
+- name: Catbird
+  ats: tier2
+  careers_url: https://www.catbirdnyc.com/careers
+  category: Jewelry / Craft Tech
+- name: Base Design
+  ats: tier2
+  careers_url: https://www.basedesign.com/jobs
+  category: Creative Agencies
+- name: Artists Equity (Affleck/Damon)
+  ats: tier2
+  careers_url: https://www.paycomonline.net/v4/ats/web.php/portal/942AC80F23F760C2F0700F9BBA8BE248/career-page
+  category: Celebrity / Founder-Led Creative-Tech Ventures
+- name: ArtStation
+  ats: tier2
+  careers_url: https://www.epicgames.com/site/careers/jobs
+  category: Design & Creative Tools
 excluded:
 - AKQA
 - Allbirds
@@ -1370,21 +1414,12 @@ needs_url:
 - name: Dribbble
   category: Design & Creative Tools
   note: dribbble.com/jobs is a job board FOR others, not Dribbble's own hiring page.
-- name: ArtStation
-  category: Design & Creative Tools
-  note: Owned by Epic Games; likely hires via epicgames.com/site/en-US/careers.
 - name: Felt
   category: Design & Creative Tools
   note: Small startup; no confidently known careers URL.
 - name: Zelle
   category: Fintech
   note: Operated by Early Warning Services; try earlywarning.com/careers.
-- name: Aspiration
-  category: Ethical / Values-Driven Banking
-  note: Faced SEC action/financial trouble in 2024; unclear current hiring status.
-- name: Ando
-  category: Ethical / Values-Driven Banking
-  note: Digital bank appears to have shut down ~2022.
 - name: Spring Bank
   category: Ethical / Values-Driven Banking
   note: Small community bank; no known dedicated careers page.
@@ -1394,15 +1429,9 @@ needs_url:
 - name: ShadowMachine
   category: Animation & Studios
   note: Animation studio; no known public careers page.
-- name: A24
-  category: Streaming, Media & Entertainment
-  note: No confidently known dedicated careers URL.
 - name: Complex (Complex Networks)
   category: Streaming, Media & Entertainment
   note: Ownership has changed hands multiple times; current careers URL unclear.
-- name: Artists Equity (Affleck/Damon)
-  category: Celebrity / Founder-Led Creative-Tech Ventures
-  note: Private studio; no public careers page known.
 - name: Maximum Effort (Ryan Reynolds)
   category: Celebrity / Founder-Led Creative-Tech Ventures
   note: Ad agency/studio; no public careers page known.
@@ -1427,9 +1456,6 @@ needs_url:
 - name: Stanley (Stanley 1913)
   category: Viral CPG / Cult Consumer Brands
   note: Owned by PMI (Pacific Market International); exact careers URL unconfirmed.
-- name: Aura Bora
-  category: Viral CPG / Cult Consumer Brands
-  note: Small beverage startup; no confidently known careers URL.
 - name: Ghia
   category: Viral CPG / Cult Consumer Brands
   note: Small beverage startup; no confidently known careers URL.
@@ -1456,13 +1482,11 @@ needs_url:
   note: Acquired by Google in 2024; unlikely to have a standalone careers page now.
 - name: CALA
   category: Generative AI x Fashion / Product Design
-  note: Domain unconfirmed (cala.app vs cala.io).
+  note: cala.ai is their site, but they hire via a direct email inquiry, not listed job postings -- nothing
+    to crawl.
 - name: Resonance
   category: Generative AI x Fashion / Product Design
   note: Name too generic to identify a specific company confidently.
-- name: Bria AI
-  category: Generative AI x Fashion / Product Design
-  note: Domain plausible (bria.ai/careers) but unconfirmed.
 - name: Speak
   category: Generative AI x Fashion / Product Design
   note: Common name -- multiple companies called "Speak"; domain unconfirmed.
@@ -1472,19 +1496,9 @@ needs_url:
 - name: Society6
   category: Print-on-Demand / Creator Commerce
   note: Part of Leaf Group; careers likely via leafgroup.com, unconfirmed.
-- name: Aura
-  category: Jewelry / Craft Tech
-  note: Common name -- multiple companies called "Aura" (photo frames vs. identity protection); domain
-    unconfirmed.
-- name: Catbird
-  category: Jewelry / Craft Tech
-  note: Small boutique; no known dedicated careers page.
 - name: Two Bit Circus
   category: Niche Interactive / Experience Design
   note: Small experiential-entertainment company; domain unconfirmed.
-- name: Bloomscape
-  category: Garden / Home Lifestyle
-  note: Reports of business trouble ~2023; current status/careers URL unclear.
 - name: The Sill
   category: Garden / Home Lifestyle
   note: Domain plausible (thesill.com/pages/careers) but unconfirmed.
@@ -1566,9 +1580,6 @@ needs_url:
 - name: Unsplash
   category: Creator Audio / Stock Libraries
   note: Acquired by Getty Images; careers likely folded into gettyimages.com/careers.
-- name: Blue Apron
-  category: Food / Recipe Tech
-  note: Acquired by Wonder Group in 2023; careers URL likely changed post-acquisition.
 - name: Pushkin Industries
   category: Podcast Production / Audio Studios
   note: Small podcast company; domain plausible (pushkin.fm/careers) but unconfirmed.
@@ -1593,33 +1604,21 @@ needs_url:
 - name: Gyro
   category: Creative Agencies
   note: Ad agency ownership/structure has changed; current careers URL unclear.
-- name: 2mrw
-  category: Creative Agencies
-  note: Very small/obscure agency name; unable to confirm which company this refers to.
 - name: Sid Lee
   category: Creative Agencies
   note: Domain plausible (sidlee.com/careers) but ownership changes make it unconfirmed.
-- name: Big Spaceship
-  category: Creative Agencies
-  note: Reports of downsizing ~2023; current careers URL unclear.
 - name: Sagmeister & Walsh
   category: Creative Agencies
   note: Tiny boutique studio (~10 people); unlikely to have a formal careers page.
 - name: Chermayeff & Geismar & Haviv
   category: Creative Agencies
   note: Tiny boutique studio; unlikely to have a formal careers page.
-- name: Base Design
-  category: Creative Agencies
-  note: Domain plausible (basedesign.com/careers) but unconfirmed.
 - name: Inferact
   category: New Additions (Sept 2026)
   note: Not a company I could confidently identify -- please supply a URL or confirm the name.
 - name: Thatch
   category: New Additions (Sept 2026)
   note: Health benefits startup; domain uncertain (withthatch.com vs thatch.com) -- unconfirmed.
-- name: Atoms
-  category: New Additions (Sept 2026)
-  note: Name too generic to identify a specific company confidently.
 - name: SpaceXAI
   category: New Additions (Sept 2026)
   note: No company by this exact name is known to me -- interpreted as possibly meaning SpaceX (spacex.com/careers)

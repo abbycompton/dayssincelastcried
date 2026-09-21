@@ -7,53 +7,8 @@
 #
 # Each line below also carries the reason it's unresolved, as a comment.
 
-# Very small/obscure agency name; unable to confirm which company this refers to.
-2mrw | 
-
-# No confidently known dedicated careers URL.
-A24 | 
-
-# Digital bank appears to have shut down ~2022.
-Ando | 
-
-# Private studio; no public careers page known.
-Artists Equity (Affleck/Damon) | 
-
-# Owned by Epic Games; likely hires via epicgames.com/site/en-US/careers.
-ArtStation | 
-
-# Faced SEC action/financial trouble in 2024; unclear current hiring status.
-Aspiration | 
-
-# Name too generic to identify a specific company confidently.
-Atoms | 
-
-# Common name -- multiple companies called "Aura" (photo frames vs. identity protection); domain unconfirmed.
-Aura | 
-
-# Small beverage startup; no confidently known careers URL.
-Aura Bora | 
-
-# Domain plausible (basedesign.com/careers) but unconfirmed.
-Base Design | 
-
-# Reports of downsizing ~2023; current careers URL unclear.
-Big Spaceship | 
-
-# Reports of business trouble ~2023; current status/careers URL unclear.
-Bloomscape | 
-
-# Acquired by Wonder Group in 2023; careers URL likely changed post-acquisition.
-Blue Apron | 
-
-# Domain plausible (bria.ai/careers) but unconfirmed.
-Bria AI | 
-
-# Domain unconfirmed (cala.app vs cala.io).
+# cala.ai is their site, but they hire via a direct email inquiry, not listed job postings -- nothing to crawl.
 CALA | 
-
-# Small boutique; no known dedicated careers page.
-Catbird | 
 
 # Tiny boutique studio; unlikely to have a formal careers page.
 Chermayeff & Geismar & Haviv | 
