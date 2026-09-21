@@ -143,6 +143,40 @@ python -m job_search_agent.scheduler --at 06:30
 Or use real cron instead of keeping a process alive — see
 `cron/job_search_agent.cron.example`.
 
+## Run reports
+
+Every run (`python -m job_search_agent.main`) writes a report to
+`logs/run_report_<date>.{json,md}` (and `logs/latest_run_report.{json,md}`,
+overwritten each time) — separate from the job digest email. The digest
+answers "what's new"; this answers "how's the crawl doing": which
+companies came back empty and why (HTTP failure, robots.txt block, a
+structurally-empty page — the same reasoning `tier2_crawler` already logs,
+just collected in one place), plus the funnel from raw postings crawled
+through filtered, deduped, and verified. Check the Markdown version daily
+alongside the digest; the JSON version is there if you want to graph
+trends over time or feed it into something else.
+
+## Testing without hitting real company sites
+
+```bash
+python -m job_search_agent.smoke_test
+```
+
+Spins up a throwaway HTTP server on localhost serving a handful of fake
+"companies" that exercise every code path in the crawl pipeline — a
+JSON-LD page, a plain-HTML anchor-heuristic page, a page that only renders
+its listings via JavaScript (proving the headless-render fallback actually
+works), an HTTP 500, an HTTP 404, and a page embedding a fake ATS board
+(proving ATS-sniffing fires, even though the handoff itself will fail
+without real network access to the real ATS). Runs the real crawl → filter
+→ dedup → verify → report pipeline against them and prints the resulting
+report and a sample digest. No rate limits, no external network, safe to
+run anytime as a fast regression check — useful for confirming a code
+change didn't break anything before pointing it at the real 300+ companies.
+
+It is not a substitute for a real run: the fixtures are hand-built to hit
+specific code paths, not representative of any real company's site.
+
 ## Pipeline
 
 1. **Crawl** every configured company (Tier 1 API or Tier 2 fallback) plus

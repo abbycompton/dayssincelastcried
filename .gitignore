@@ -4,6 +4,10 @@ __pycache__/
 data/*.sqlite3
 data/*.db
 logs/*.log
+logs/run_report_*.json
+logs/run_report_*.md
+logs/latest_run_report.json
+logs/latest_run_report.md
 .venv/
 venv/
 *.egg-info/
