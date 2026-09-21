@@ -34,22 +34,36 @@ a JS-heavy page's postings will get logged as an unusual all-zero result
 
 ### 1. Target companies
 
-`config/companies.yaml` is pre-populated with 300 companies (from the
-provided target list, plus some best-effort URLs filled in — see below) as
+`config/companies.yaml` is pre-populated with 321 companies (from the
+provided target lists, plus some best-effort URLs filled in — see below) as
 `tier2` entries, crawled directly at their `careers_url` — this is what
 "search each careers site daily" runs against out of the box, no further
 setup required to start.
 
 Worth knowing:
 
-- **83 companies from the source list still have no usable `careers_url`**
+- **~90 companies from the source lists still have no usable `careers_url`**
   (Midjourney, several small agencies and foundations, recently-acquired or
   wound-down companies like Cruise and Simple, ambiguous names like "Aura").
   They're listed under `needs_url` in `config/companies.yaml`, each with a
   `note` explaining why it's unresolved (acquired, defunct, ambiguous name,
   no known public careers page, etc.) — the loader ignores this section.
-  Add a `careers_url` and move an entry into `tier2` once you have one.
-- **37 of the 300 `tier2` URLs were filled in from training knowledge, not
+
+  **`config/careers_urls_todo.txt` is the easy way to fill these in.** It's
+  a plain-text list, one company per line as `Company Name | ` — add a URL
+  after the `|` for any you know and leave the rest blank. Then either run:
+
+  ```bash
+  python -m job_search_agent.apply_careers_urls --apply config/careers_urls_todo.txt
+  ```
+
+  to merge it into `config/companies.yaml` yourself, or just paste your
+  edited lines back in chat and it'll get merged for you. The same file/tool
+  also works to *correct* an existing best-effort `tier2` URL — a line for a
+  company already in `tier2` overwrites its URL instead of adding a
+  duplicate. Regenerate the todo file at any time to reflect whatever's
+  still outstanding (whatever's left in `needs_url`).
+- **58 of the 321 `tier2` URLs were filled in from training knowledge, not
   fetched or verified** (this environment has no general internet access —
   confirmed by testing, both plain HTTP and a headless browser get a
   proxy-level connection block on arbitrary domains). They're standard
@@ -175,9 +189,10 @@ here and should not be added.
   results.** The Indeed fetcher respects that (as it should), so it will
   frequently return nothing — that's correct behavior per the spec's
   crawler etiquette rules, not a bug.
-- **83 companies still need a `careers_url`** before they can be crawled at
-  all, and 37 more have an unverified best-effort one — see `needs_url` in
-  `config/companies.yaml` and the notes above.
+- **90 companies still need a `careers_url`** before they can be crawled at
+  all, and 58 more have an unverified best-effort one — see `needs_url` in
+  `config/companies.yaml`, `config/careers_urls_todo.txt`, and the notes
+  above.
 
 ## Tests
 

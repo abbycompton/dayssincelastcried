@@ -1,0 +1,279 @@
+# Fill in a careers page URL for any of these you know, one per line, in the
+# same format: Company Name | https://example.com/careers
+# Leave the part after '|' blank to skip a company for now -- it'll just stay
+# as-is. Send the whole file back (or paste your edited lines in chat) and
+# they'll get merged into config/companies.yaml automatically:
+#   python -m job_search_agent.apply_careers_urls --apply config/careers_urls_todo.txt
+#
+# Each line below also carries the reason it's unresolved, as a comment.
+
+# Very small/obscure agency name; unable to confirm which company this refers to.
+2mrw | 
+
+# No confidently known dedicated careers URL.
+A24 | 
+
+# Digital bank appears to have shut down ~2022.
+Ando | 
+
+# Private studio; no public careers page known.
+Artists Equity (Affleck/Damon) | 
+
+# Owned by Epic Games; likely hires via epicgames.com/site/en-US/careers.
+ArtStation | 
+
+# Faced SEC action/financial trouble in 2024; unclear current hiring status.
+Aspiration | 
+
+# Name too generic to identify a specific company confidently.
+Atoms | 
+
+# Common name -- multiple companies called "Aura" (photo frames vs. identity protection); domain unconfirmed.
+Aura | 
+
+# Small beverage startup; no confidently known careers URL.
+Aura Bora | 
+
+# Domain plausible (basedesign.com/careers) but unconfirmed.
+Base Design | 
+
+# Reports of downsizing ~2023; current careers URL unclear.
+Big Spaceship | 
+
+# Reports of business trouble ~2023; current status/careers URL unclear.
+Bloomscape | 
+
+# Acquired by Wonder Group in 2023; careers URL likely changed post-acquisition.
+Blue Apron | 
+
+# Domain plausible (bria.ai/careers) but unconfirmed.
+Bria AI | 
+
+# Domain unconfirmed (cala.app vs cala.io).
+CALA | 
+
+# Small boutique; no known dedicated careers page.
+Catbird | 
+
+# Tiny boutique studio; unlikely to have a formal careers page.
+Chermayeff & Geismar & Haviv | 
+
+# Ownership has changed hands multiple times; current careers URL unclear.
+Complex (Complex Networks) | 
+
+# Small nonprofit; no known dedicated careers page.
+Creative Capital | 
+
+# GM wound down Cruise's robotaxi business in Dec 2024 -- likely no active hiring.
+Cruise (GM) | 
+
+# dribbble.com/jobs is a job board FOR others, not Dribbble's own hiring page.
+Dribbble | 
+
+# Small nonprofit; no known dedicated careers page.
+Eyebeam | 
+
+# Common name ("Fantasy" design studio); domain unconfirmed.
+Fantasy | 
+
+# Small startup; no confidently known careers URL.
+Felt | 
+
+# Small agency; no known dedicated careers page.
+Fictive Kin | 
+
+# Acquired by Google in 2024; unlikely to have a standalone careers page now.
+Galileo AI | 
+
+# Small startup; no confidently known careers URL.
+Gardenuity | 
+
+# Domain plausible (genmo.ai/careers) but unconfirmed.
+Genmo | 
+
+# Small beverage startup; no confidently known careers URL.
+Ghia | 
+
+# Name collides with Spotify's Gimlet (podcast studio, already listed separately) -- if this is a different company, domain is unconfirmed.
+Gimlet Labs | 
+
+# Small nonprofit; no known dedicated careers page.
+Gray Area Foundation for the Arts | 
+
+# Ad agency ownership/structure has changed; current careers URL unclear.
+Gyro | 
+
+# Owned by DJI; may now hire via DJI's own careers page.
+Hasselblad | 
+
+# Domain plausible (heygen.com/careers) but unconfirmed.
+HeyGen | 
+
+# Very new startup; domain/branding may still be changing.
+Higgsfield | 
+
+# Domain plausible (highsnobiety.com/careers) but unconfirmed.
+Highsnobiety | 
+
+# Domain plausible (ideogram.ai/careers) but unconfirmed.
+Ideogram | 
+
+# Very small team; no known public careers page.
+Imgflip | 
+
+# Not a company I could confidently identify -- please supply a URL or confirm the name.
+Inferact | 
+
+# Wound down most products ~2023; unclear if still hiring.
+InVision | 
+
+# itsnicethat.com/jobs is a board FOR others, not their own hiring page.
+It's Nice That | 
+
+# Likely hosted on a separate ATS subdomain; exact URL unconfirmed.
+Kapwing | 
+
+# Small publisher; no known dedicated careers page.
+Kinfolk | 
+
+# Domain plausible (krea.ai/careers) but unconfirmed.
+Krea AI | 
+
+# Exact careers URL/path structure unconfirmed.
+Leica | 
+
+# Small niche company; no known dedicated careers page.
+Lomography | 
+
+# Ad agency/studio; no public careers page known.
+Maximum Effort (Ryan Reynolds) | 
+
+# Historically has no public careers page; hires via referral/Discord.
+Midjourney | 
+
+# Not a company I could confidently identify -- please supply a URL or confirm the name.
+Mind Robotics | 
+
+# No confidently known dedicated careers URL.
+Monocle | 
+
+# Domain plausible (moonvalley.ai/careers) but unconfirmed.
+Moonvalley | 
+
+# Multinational with region-specific career portals; no single confident URL.
+Nikon | 
+
+# Common name -- multiple companies called "Ollie"; domain unconfirmed.
+Ollie | 
+
+# Ambiguous which "One" fintech; domain unconfirmed.
+One | 
+
+# Product rebranded under opus.pro; exact careers URL unconfirmed.
+OpusClip | 
+
+# Parent company rebranded to Beyond Inc (BYON); careers URL likely changed.
+Overstock | 
+
+# Very new AI-for-science startup; no confidently known careers URL yet.
+Periodic Labs | 
+
+# Rebranded multiple times (Pika 1.0 -> Pika Labs, pika.art); current URL unconfirmed.
+Pika Labs | 
+
+# Domain plausible (polaroid.com/pages/careers) but unconfirmed.
+Polaroid | 
+
+# Australia-based (Savage Interactive); no confidently known careers URL.
+Procreate (Savage Interactive) | 
+
+# Small podcast company; domain plausible (pushkin.fm/careers) but unconfirmed.
+Pushkin Industries | 
+
+# Part of PRX; try prx.org/jobs instead.
+Radiotopia | 
+
+# Name too generic to identify a specific company confidently.
+Resonance | 
+
+# Owned by American Express; careers may be under americanexpress.com/careers.
+Resy (Amex) | 
+
+# Small nonprofit; no known dedicated careers page.
+Rhizome | 
+
+# Went into administration in 2022; brand later revived under new ownership -- status unclear.
+Roli | 
+
+# Tiny boutique studio (~10 people); unlikely to have a formal careers page.
+Sagmeister & Walsh | 
+
+# Animation studio; no known public careers page.
+ShadowMachine | 
+
+# Domain plausible (sidlee.com/careers) but ownership changes make it unconfirmed.
+Sid Lee | 
+
+# Simple (BBVA-owned online bank) shut down in 2021.
+Simple | 
+
+# Part of Leaf Group; careers likely via leafgroup.com, unconfirmed.
+Society6 | 
+
+# Financial distress; hospitality operations transferred to Marriott in 2024.
+Sonder | 
+
+# No company by this exact name is known to me -- interpreted as possibly meaning SpaceX (spacex.com/careers) or a different, newer company; please confirm.
+SpaceXAI | 
+
+# Common name -- multiple companies called "Speak"; domain unconfirmed.
+Speak | 
+
+# Small community bank; no known dedicated careers page.
+Spring Bank | 
+
+# Owned by PMI (Pacific Market International); exact careers URL unconfirmed.
+Stanley (Stanley 1913) | 
+
+# Parent is Hero Cosmetics; exact careers URL unconfirmed.
+Starface | 
+
+# Small agency; domain unconfirmed.
+Tahzoo | 
+
+# Small Swedish design company; no confidently known careers URL.
+Teenage Engineering | 
+
+# Rebranded to Spring (spri.ng); exact careers URL unconfirmed post-rebrand.
+Teespring/Spring | 
+
+# Health benefits startup; domain uncertain (withthatch.com vs thatch.com) -- unconfirmed.
+Thatch | 
+
+# Domain plausible (thesill.com/pages/careers) but unconfirmed.
+The Sill | 
+
+# Reportedly acquired by American Express (~2024); careers URL likely changed.
+Tock | 
+
+# Small experiential-entertainment company; domain unconfirmed.
+Two Bit Circus | 
+
+# AI music startup; likely hires via a separate ATS subdomain, unconfirmed.
+Udio | 
+
+# Acquired by Getty Images; careers likely folded into gettyimages.com/careers.
+Unsplash | 
+
+# Pet tracker owned by Mars; likely hires via mars.com/careers.
+Whistle | 
+
+# Acquired by SRI International in 2023; try sri.com/careers instead.
+Xerox PARC | 
+
+# Operated by Early Warning Services; try earlywarning.com/careers.
+Zelle | 
+
+# Portland studio was sold/restructured around 2020-2021; current status unclear.
+Ziba Design | 
+

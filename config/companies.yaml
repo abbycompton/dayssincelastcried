@@ -1246,6 +1246,111 @@ tier2:
   careers_url: https://www.lever.co/careers
   category: Recruiting / Professional Networking
   verified: false
+- name: Databricks
+  ats: tier2
+  careers_url: https://www.databricks.com/company/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Anduril Industries
+  ats: tier2
+  careers_url: https://www.anduril.com/careers/
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Zipline
+  ats: tier2
+  careers_url: https://www.flyzipline.com/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Applied Intuition
+  ats: tier2
+  careers_url: https://www.applied.co/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Decagon
+  ats: tier2
+  careers_url: https://decagon.ai/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Base Power Company
+  ats: tier2
+  careers_url: https://www.basepowerco.com/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: EliseAI
+  ats: tier2
+  careers_url: https://www.eliseai.com/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Carta
+  ats: tier2
+  careers_url: https://carta.com/careers/
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Kong
+  ats: tier2
+  careers_url: https://konghq.com/careers/
+  category: New Additions (Sept 2026)
+  verified: false
+- name: HappyRobot
+  ats: tier2
+  careers_url: https://happyrobot.ai/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Temporal Technologies
+  ats: tier2
+  careers_url: https://temporal.io/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Exa
+  ats: tier2
+  careers_url: https://exa.ai/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Thinking Machines Lab
+  ats: tier2
+  careers_url: https://thinkingmachines.ai/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Kalshi
+  ats: tier2
+  careers_url: https://kalshi.com/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Abridge
+  ats: tier2
+  careers_url: https://www.abridge.com/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: fal
+  ats: tier2
+  careers_url: https://fal.ai/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Gamma
+  ats: tier2
+  careers_url: https://gamma.app/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Reducto
+  ats: tier2
+  careers_url: https://reducto.ai/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Astranis Space Technologies
+  ats: tier2
+  careers_url: https://www.astranis.com/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Mistral
+  ats: tier2
+  careers_url: https://mistral.ai/careers
+  category: New Additions (Sept 2026)
+  verified: false
+- name: Valon
+  ats: tier2
+  careers_url: https://valon.com/careers
+  category: New Additions (Sept 2026)
+  verified: false
 excluded:
 - AKQA
 - Allbirds
@@ -1506,6 +1611,29 @@ needs_url:
 - name: Base Design
   category: Creative Agencies
   note: Domain plausible (basedesign.com/careers) but unconfirmed.
+- name: Inferact
+  category: New Additions (Sept 2026)
+  note: Not a company I could confidently identify -- please supply a URL or confirm the name.
+- name: Thatch
+  category: New Additions (Sept 2026)
+  note: Health benefits startup; domain uncertain (withthatch.com vs thatch.com) -- unconfirmed.
+- name: Atoms
+  category: New Additions (Sept 2026)
+  note: Name too generic to identify a specific company confidently.
+- name: SpaceXAI
+  category: New Additions (Sept 2026)
+  note: No company by this exact name is known to me -- interpreted as possibly meaning SpaceX (spacex.com/careers)
+    or a different, newer company; please confirm.
+- name: Mind Robotics
+  category: New Additions (Sept 2026)
+  note: Not a company I could confidently identify -- please supply a URL or confirm the name.
+- name: Gimlet Labs
+  category: New Additions (Sept 2026)
+  note: Name collides with Spotify's Gimlet (podcast studio, already listed separately) -- if this is
+    a different company, domain is unconfirmed.
+- name: Periodic Labs
+  category: New Additions (Sept 2026)
+  note: Very new AI-for-science startup; no confidently known careers URL yet.
 reference_categories:
 - AI-Creative Tools
 - AI-Native Design / Creative Ops Tooling
@@ -1543,6 +1671,7 @@ reference_categories:
 - Meme / Content Platform Infrastructure
 - Music / Audio Tech
 - Neighborhood / Local Social
+- New Additions (Sept 2026)
 - Niche Interactive / Experience Design
 - Outdoor / Adventure Lifestyle
 - Pet Tech
